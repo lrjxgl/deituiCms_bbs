@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	{include file="head.html"}
+	<body>
+		 
+		<div class="header">
+			<div class="header-back"></div>
+			<div class="header-title">我的消息</div>
+		</div>
+		<div class="header-row"></div>
+		<div class="main-body">
+			<div class="list ">
+				{foreach item=c from=$data}
+				<div class="row-box mgb-5">
+					<div class="cl3 bd-mp-5">{$c.content}</div>
+					<div class="flex">
+					<div class="flex-1 cl2">{$c.timeago}</div>
+					<div gourl="{$c.linkurl}" class="btn-mini btn-outline-primary">去查看</div>
+					</div>
+				</div>
+				{/foreach}
+				 
+			</div>
+		</div>
+		
+	{include file="footer.html"} 
+	</body>
+</html>
