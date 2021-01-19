@@ -22,7 +22,8 @@
 						<option value="0">请选择</option>
 						{foreach item=c from=$catlist}
 						<option value="{$c.catid}" {if get('catid') eq $c.catid} selected="selected" {/if}>{$c.title} </option> {/foreach}
-						 </select> 用户：<input class="w100" type="text" name="nickname" value="{$smarty.get.nickname|html}" />
+						 </select> 
+						 用户：<input class="w100" type="text" name="nickname" value="{$smarty.get.nickname|html}" />
 						<input type="checkbox" {if get("isrecommend") eq 1}checked{/if} name="isrecommend" value="1" />推荐
 						<button type="submit" class="btn">搜索</button>
 

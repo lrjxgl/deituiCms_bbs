@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 	{include file="head.html"}
+	<link href="/plugin/swiper/css/swiper.min.css" rel="stylesheet" />
+	<link href="{$skins}forum/index.css?v2" rel="stylesheet" />
 	<body>
 		<div class="header">
-			<a href="/" class="header-back pos-relative"></a>
+			<div class="header-back pos-relative"></div> 
 			<div class="header-search-box">
 				 
 				<input id="search-word" class="header-search pdl-5" placeholder="搜你想要的" type="text">
@@ -25,7 +27,6 @@
 				<div class="swiper-pagination"></div>
 
 			</div>
-			 
 			{if $navList}
 			<div class="m-navPic mgb-5">
 			    {foreach item=c from=$navList}
@@ -46,7 +47,33 @@
 			
 			</div>
 			{/if}
-			 
+			<style>
+				.tabNav{
+					padding: 10px;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: center;
+					background-color: #fff;
+					border-bottom: 1px solid #eee;
+				}
+				.tabNav-item{
+					cursor: pointer;
+					margin-right: 40px;
+					font-weight: 600;
+				}
+				.tabNav-item-active{
+					color: #f60;
+					padding-bottom: 3px;
+				 
+				}
+			</style>
+			<div class="tabNav">
+				<div gourl="/module.php?m=forum" class="tabNav-item tabNav-item-active">推荐</div>
+				<div gourl="/module.php?m=forum&a=new"  class="tabNav-item">最新</div>
+				<div gourl="/module.php?m=forum_feeds"  class="tabNav-item">关注</div>
+				<div gourl="/module.php?m=forum_paihang"  class="tabNav-item">名人榜</div>
+			</div>
 			<div class="sglist">
 				{foreach item=c from=$list}
 				<a href="/module.php?m=forum&a=show&id={$c.id}" class="sglist-item">
@@ -59,9 +86,10 @@
 								
 							</div>
 						</div>
-						 
+						<div class="cl2 f12">来自{$c.group_title}</div>  
 					</div>
 					<div class="sglist-title mgb-10">{$c.title}</div>
+					 
 					<div class="sglist-imglist">
 						{foreach item=img from=$c.imgslist}
 						<img src="{$img}.100x100.jpg" class="sglist-imglist-img" />
@@ -75,12 +103,11 @@
 				</a>
 				{/foreach}
 			</div>
-			<div class="flex-center pd-10">
-				<a class="f12 cl3" href="http://www.beian.miit.gov.cn">{$site.icp}</a>
-			</div>
+			
 		</div>
 		{include file="ftnav.html"}
 		{include file="footer.html"}
+		<?php wx_jssdk(false);?>
 		<script>
 			$(document).on("click","#search-btn",function(){
 				var word=$("#search-word").val();

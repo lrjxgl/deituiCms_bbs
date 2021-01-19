@@ -266,9 +266,13 @@
 			$ids=post('ids','i');
 			$catid=post('catid','i');
 			if(!$catid) $this->goall("请选择分类",1);
+			$cat=M("mod_forum_category")->selectRow("catid=".$catid);
 			if($ids){
 				foreach($ids as $id){
-					M("mod_forum")->update(array("catid"=>$catid),"id=".$id);
+					M("mod_forum")->update(array(
+						"catid"=>$catid,
+						"gid"=>$cat["gid"]
+					),"id=".$id);
 				}
 			}
 			$this->goall("修改成功");

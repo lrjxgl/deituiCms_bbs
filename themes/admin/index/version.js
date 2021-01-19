@@ -15,18 +15,22 @@ $.get("/admin.php?m=index&a=shouquan",function(res){
 		}else{
 			$("#sqRes").html('您还未获得商业授权，无法在线更新');
 		}
-},"json");
+},"json"); 
 $(document).on("click","#update-btn",function(){
 	
 	if(confirm('更新前请做好数据备份，确定更新吗？')){
-		skyAlert("正在升级请耐心等...","提示");
+		skyJs.alert({
+			content:"正在升级请耐心等..."
+		});
 		$.get("/admin.php?m=index&a=update",function(data){
 			if(data.error){
-				skyToast(data.message);
-				skyAlertClose();
+				skyJs.toast(data.message);
+				 
 				return ;
 			}
-			skyAlert("升级成功","提示");
+			skyJs.alert({
+				content:"升级成功..."
+			});
 			setTimeout(function(){
 					window.location.reload();
 			},600);

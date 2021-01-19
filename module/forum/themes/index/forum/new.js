@@ -101,6 +101,15 @@ new Vue({
 					that.setCache();
 				}
 			})
-		}
+		},
+		goUserHome:function(userid){
+			window.location="/module.php?m=forum_home&userid="+userid
+		},
+		goDetail:function(id){
+			window.location="/module.php?m=forum&a=show&id="+id
+		},
+		goGroup:function(gid){
+			window.location="/module.php?m=forum&a=list&gid="+gid
+		},
 	}
 })

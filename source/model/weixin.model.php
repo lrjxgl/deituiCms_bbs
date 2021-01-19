@@ -51,6 +51,37 @@ class weixinModel extends model{
 		 
 	}
 	
+	public function checkFollow($userid){
+		$key="weixin_checkFollow".$userid;
+		if(!$res=cache()->get($key)){
+			$token=get_weixin_access_token();
+			
+			$openLogin=M("openlogin")->selectRow("userid=".$userid." AND xfrom='weixin' ");
+			
+			if(!$openLogin) return false;
+			$openid=$openLogin["openid"];
+			$url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$token["access_token"]."&openid=".$openid."&lang=zh_CN";
+			$res=file_get_contents($url);
+			 
+			$row=json_decode($res,true);
+			if(isset($row["errcode"])){
+				 
+				return false;
+			} 
+			
+			if($row["subscribe"]==1){
+				cache()->set($key,1,3600); 
+				return true;
+			}else{
+				 
+				return false;
+			}
+		}else{
+			return true;
+		}
+		
+	}
+	
 }
 
 ?>

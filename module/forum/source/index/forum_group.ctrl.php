@@ -8,6 +8,7 @@ class forum_groupControl extends skymvc{
 	public function onDefault(){
 		$data=MM("forum","forum_group")->Dselect(array(
 			"where"=>" status=1 ",
+			"order"=>"orderindex ASC",
 			"fields"=>"gid,title,imgurl,view_num,topic_num,comment_num,description"
 		));
 		$this->smarty->goAssign(array(

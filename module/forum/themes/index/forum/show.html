@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 	{include file="head.html"}
+	<style>
+		.video{
+			width: 100%;
+		}
+	</style>
 	<body>
 		<div class="header">
 			<div url="/module.php?m=forum" class="header-back"></div>
@@ -24,12 +29,23 @@
 			</div>
 			<div class="d-title">{$data.title}</div>
 			<div class="d-tools">
+				<div class="cl2 f12 mgr-5">来自 </div>
+				<div gourl="/module.php?m=forum&a=list&gid={$group.gid}" class="cl2 f12 mgr-10">{$group.title}</div> 
+				<div class="cl2 f12">{$data.timeago}</div>
+				<div class="flex-1"></div>
 				{if $data.gold}
-				<div class="flex-1 cl-num">赏金 {$data.gold}</div>
+				<div class="cl-num">赏金 {$data.gold}</div>
 				{/if}
-				<div class="mgr-10 cl2">作者：{$author.nickname}</div>
-				<div class="cl2">{$data.timeago}</div>
 			</div>
+			{if $data.videourl!=''}
+			<video 
+				src="{$data.videourl}" 
+				x5-playsinline="true"
+				x-webkit-airplay="true"
+				 playsinline="true" 
+				 webkit-playsinline="true" 
+			 class="video" controls="controls" autoplay=""></video>
+			{/if}
 			<div class="d-content">{$data.content}</div>
 			<div class="flex-center mgb-10">
 				{foreach item=c from=$imgslist}
@@ -53,13 +69,19 @@
 		<a href="/module.php?m=forum&a=add" class="fixedAdd">发布</a>
 		{include file="footer.html"}
 
-		<script src="{$skins}inc/comment.js"></script>
+		<script src="{$skins}inc/comment.js?{const.JS_VERSION}"></script>
 		<?php wx_jssdk();?>
 		<script type="text/javascript">
 			wxshare_title="{$data.title}";
 			{if $data.imgurl} 
 			 wxshare_imgUrl="{$data.imgurl|images_site}.100x100.jpg";
 			 {/if}
+		</script>
+		<script>
+			setTimeout(function(){
+				$.get("/module.php?m=forum&a=addclick&id={$data.id}&ajax=1")
+			},3000);
+			
 		</script>
 	</body>
 </html>

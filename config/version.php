@@ -3,7 +3,7 @@ class cmsVersion{
 	public static function get(){
 		return array(
 			"version"=>"得推论坛",
-			"version_num"=>2.1,
+			"version_num"=>2.2,
 			"onlineupdate"=>"https://www.deituicms.com/index.php?m=newversion&a=update&product=forum",
 			"checkversion"=>"https://www.deituicms.com/index.php?m=newversion&product=forum",
 			"checkshouquan"=>"https://www.deituicms.com/index.php?m=newversion&a=checkshouquan&product=forum",

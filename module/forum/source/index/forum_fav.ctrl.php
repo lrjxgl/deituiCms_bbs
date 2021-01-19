@@ -50,6 +50,7 @@ class forum_favControl extends skymvc
 			}
 			$gs=MM("forum","forum_group")->getListByIds($gids,"gid,title");
 			$us=M("user")->getUserByIds($uids);
+			
 			foreach($list as $k=>$v){
 				$v['nickname']=$us[$v['userid']]['nickname'];
 				$v['user_head']=images_site($us[$v['userid']]['user_head']);
@@ -69,6 +70,8 @@ class forum_favControl extends skymvc
 				}
 				$list[$k]=$v;
 			}
+			
+			 
 		}
 		$per_page=$start+$limit;
 		$per_page=$per_page<$rscount?$per_page:0;

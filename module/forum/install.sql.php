@@ -54,7 +54,7 @@ CREATE TABLE `sky_mod_forum_comment` (
   PRIMARY KEY (`id`),
   KEY `objectid` (`objectid`,`status`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='帖子评论';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='帖子评论';
 CREATE TABLE `sky_mod_forum_data` (
   `id` bigint(20) NOT NULL,
   `content` mediumtext CHARACTER SET utf8 NOT NULL,

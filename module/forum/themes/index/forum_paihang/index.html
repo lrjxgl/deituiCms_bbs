@@ -39,10 +39,42 @@
 		<div class="main-body">
 			<div class="tabs-border-group">
 				<div class="tabs-border">
-					<div class="tabs-border-item js-tabs-border-item tabs-border-active">名人榜</div>
-					<div class="tabs-border-item js-tabs-border-item">文章榜</div>  
+					<div class="tabs-border-item tabs-border-active  js-tabs-border-item">热帖榜</div> 
+					<div class="tabs-border-item js-tabs-border-item ">名人榜</div>
+					 
 				</div>
-				<div class="row-box tabs-border-box tabs-border-box-active">
+				<div class="row-box tabs-border-box  tabs-border-box-active">
+					<div class="sglist">
+						{foreach item=c from=$wzList}
+						<a href="/module.php?m=forum&a=show&id={$c.id}" class="sglist-item">
+							<div class="flex mgb-10">
+								<img src="{$c.user_head}.100x100.jpg" class="wh-40 bd-radius-50" />
+								<div class="flex-1 mgl-5">
+									<div class="f14 fw-600 mgb-5">{$c.nickname}</div>
+									<div class="flex">
+										<div class="f12 cl3">{$c.timeago}</div>
+										
+									</div>
+								</div>
+								<div class="cl2 f12">来自{$c.group_title}</div>  
+							</div>
+							<div class="sglist-title mgb-10">{$c.title}</div>
+							 
+							<div class="sglist-imglist">
+								{foreach item=img from=$c.imgslist}
+								<img src="{$img}.100x100.jpg" class="sglist-imglist-img" />
+								{/foreach}
+							</div>
+							<div class="sglist-ft">
+								<div class="sglist-ft-love">{$c.love_num}</div>
+								<div class="sglist-ft-cm">{$c.comment_num}</div>
+								<div class="sglist-ft-view">{$c.view_num}</div>
+							</div> 
+						</a>
+						{/foreach}
+					</div>
+				</div>
+				<div class="row-box tabs-border-box">
 					<div class="flex mgb-10">
 						<div class="td-a fwb">排行</div>
 						<div class="td-b fwb">头像</div>
@@ -60,24 +92,7 @@
 					</div>
 					{/foreach}
 				</div>
-				<div class="row-box tabs-border-box">
-					<div class="flex mgb-10">
-						<div class="td-a fwb">排行</div>
-						<div class="td-b fwb">头像</div>
-						<div class="td-c fwb">昵称</div>
-						<div class="flex-1"></div>
-						<div class="td-d fwb">积分</div>
-					</div>
-					{foreach item=c key=k from=$wzList}
-					<div gourl="/module.php?m=forum_home&userid={$c.userid}" class="flex flex-ai-center mgb-10">
-						<div class="td-a cl-num">{$k+1}</div>
-						<div class="td-b"><img class="rdImg" src="{$c.user_head}.100x100.jpg" /></div>
-						<div class="td-c">{$c.nickname}</div>
-						<div class="flex-1"></div>
-						<div class="td-d cl-num">{$c.num}</div>
-					</div>
-					{/foreach}
-				</div>
+				
 			</div>
 		</div>
 		{include file="footer.html"}

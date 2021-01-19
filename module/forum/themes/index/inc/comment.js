@@ -1,66 +1,101 @@
-function commentlist(url) {
-        $.get("/index.php?m=comment&tablename=" + comment_tablename + "&ajax=1&objectid=" + comment_objectid, function (
-            data) {
-            if (data.error) {
-                return false;
-            }
-            var html = template("comment-list-tpl", data.data);
-            $("#comment-list").html(html);
-        }, "json")
-    }
-
-    $(function () {
-
-        commentlist();
-
-
-        $(document).on("click", "#comment-btn", function (e) {
-            $("#comment-formbox-form").show();
-			$("#comment-btn").hide();
-        });
-        $(document).on("click", "#comment-cancel", function (e) {
-            $("#comment-content").val("");
-            $("#comment-formbox-form").hide();
-			$("#comment-btn").show();
-            comment_pid = 0;
-        });
-        $(document).on("click", "#comment-submit", function () {
-            if (comment_insubmit) return false;
-            comment_insubmit = true;
-            setTimeout(function () {
-                comment_insubmit = false;
-            }, 1000);
-            var pdata = {
-                content: $("#comment-content").val(),
-                objectid: comment_objectid,
-                tablename: comment_tablename,
+var cmApp=new Vue({
+	el:"#commentApp",
+	data:function(){
+		return {
+			list:[],
+			per_page:0,
+			pageLoad:false,
+			isFirst:true,
+			content:"",
+			formShow:false,
+			cmBtn:true
+		}
+	},
+	created:function(){
+		this.getPage();
+	},
+	methods:{
+		getPage:function(){
+			var that=this;
+			$.ajax({
+				url:"/index.php?m=comment&tablename=" + comment_tablename + "&ajax=1&objectid=" + comment_objectid,
+				dataType:"json",
+				success:function(res){
+					if (res.error) {
+					    return false;
+					}
+					that.list=res.data.list;
+					that.per_page=res.data.per_page;
+					that.isFirst=false;
+				}
+			})
+		},
+		getList:function(){
+			var that=this;
+			$.ajax({
+				url:"/index.php?m=comment&tablename=" + comment_tablename + "&ajax=1&objectid=" + comment_objectid,
+				dataType:"json",
+				success:function(res){
+					if (res.error) {
+					    return false;
+					}
+					that.per_page=res.data.per_page;
+					for(var i in res.data.list){
+						that.list.push(res.data.list[i])
+					}
+					 
+				}
+			})
+		},
+		reply:function(pid,nickname){
+			comment_pid=pid;
+			this.content="@"+nickname+" ";
+			this.cmBtn=false;
+			this.formShow=true;
+			$("#comment-content").focus();
+		},
+		submit:function(){
+			if(!postCheck.canPost()){
+				return false;
+			}
+			var that=this;
+			var pdata = {
+			    content: that.content,
+			    objectid: comment_objectid,
+			    tablename: comment_tablename,
 				pid:comment_pid
 				 
-            }
-            $.post("/index.php?m=comment&a=save&ajax=1", pdata, function (data) {
-                if (data.error == 0) {
-                    commentlist();
-                    $("#comment-content").val("");
-                    $("#comment-formbox-form").hide();
-                    $("#comment-btn").show();
-                    comment_pid = 0;
-                    skyToast("评论成功");
-                } else {
-					skyToast(data.message);
-                    if (data.error==1000) {
-                        window.location="/index.php?m=login"
-                    }  
+			}
+			$.ajax({
+				url:"/index.php?m=comment&a=save&ajax=1",
+				dataType:"json",
+				type:"POST",
+				data:pdata,
+				success:function(res){
+					if (res.error==1000) {
+					    window.location="/index.php?m=login"
+					}else{
+						comment_pid = 0;
+						that.content="";
+						that.cmBtn=true;
+						that.formShow=false;
+						skyToast("评论成功");
+						that.getPage();
+					} 
+				}
+			})
+			 
+		},
+		cancel:function(){
+			this.content="";
+			comment_pid = 0;
+			this.cmBtn=true;
+			this.formShow=false;
+		},
+		goHome:function(userid){
+			window.location="/module.php?m=forum_home&userid="+userid
+		}
+	}
+})
 
-                }
-            }, "json")
-        })
-
-        $(document).on("click", ".js-comment-reply", function () {
-            $("#commentbox").show();
-            comment_pid = $(this).attr("pid");
-			$("#comment-formbox-form").show();
-			$("#comment-btn").hide();
-            $("#comment-content").focus().val($(this).attr("title") + " ");
-        });
-
-    });
+ 

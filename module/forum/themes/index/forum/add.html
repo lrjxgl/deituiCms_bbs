@@ -39,11 +39,49 @@
 						<div class="textarea-flex-label input-flex-require">内容：</div>
 						<textarea  class="textarea-flex-text h60" name="description" id="description">{$data.description}</textarea>
 					</div>
-				 
+					{if UPLOAD_OSS=='aliyun'}
+	
+					<div class="tabs-border-group">
+						<div class="tabs-border">
+							<div class="tabs-border-item tabs-border-active">图片</div>
+							<div  class="tabs-border-item">视频</div>
+						</div>
+						<div class="tabs-border-box bg-white tabs-border-box-active">
+							<input type="hidden" name="imgsdata" id="imgsdata" value="{$data.imgsdata}" />
+						{include file="inc/uploader-data.html"}
+						</div>
+						<div  class="input-flex tabs-border-box">
+							 
+							<div class="videoBox flex-1">
+								<div style="display: none;">
+									<input type="file" id="up-video" name="upfile" />
+								</div>
+								<div class="upimg-btn" id="js-upbtn">
+									<div class="upimg-btn-icon">
+						
+									</div>
+								</div>
+						
+								<span id="progress"></span>
+								<div style="padding: 10px; color: #f60;">视频小于100M，只支持mp4格式</div>
+								<div id="mp4box">
+									{if $data.videourl}
+									<video controls="" src="' + data.true_videourl + '" class="video"></video>
+									{/if}
+								</div>
+								<input type="hidden" name="videourl" id="mp4url" value="{$data.videourl}" />
+								
+								 
+							</div>
+						</div>
+					
+					</div>
+					{else}
 					<div class="bg-fff mgb-5">
 						<input type="hidden" name="imgsdata" id="imgsdata" value="{$data.imgsdata}" />
 						{include file="inc/uploader-data.html"}
 					</div>
+					{/if}
 					{if $payMoney}
 				 <div class="input-flex">
 					 <div class="input-flex-label">支付费用</div>
@@ -54,60 +92,17 @@
 			</form>
 
 		</div>
+		 
 		{include file="footer.html"}
+		 
+		{if INWEIXIN}
+		<?php wx_jssdk();?>
+		<script src="{$skins}inc/uploader-data-wx.js?{$smarty.now}"></script> 
+		{else} 
 		<script src="{$skins}inc/uploader-data.js"></script>
-		<script src="/plugin/lrz/lrz.bundle.js"></script>
-		<script src="/plugin/dt-ui/dt-ui-upload.js"></script>
-		<script src="/plugin/laydate/laydate.js"></script>
-		<script>
-			laydate.render({
-				elem:"#startTime",
-				type:"datetime"
-			});
-			$(document).on("change","#gid",function(){
-				var gid=$(this).val();
-				$.get("/module.php?m=forum_group&a=catlist&ajax=1&gid="+gid,function(data){
-					var html='<option value="0">请选择</option>';
-				 
-					for(var i=0;i<data.data.length;i++){
-						html=html+'<option value="'+data.data[i].catid+'">'+data.data[i].title+'</option>';
-					}
-					console.log(html);
-					$("#catid").html(html);
-				},"json")
-			})
-			var inSubmit=false;
-			$(document).on("click","#submit",function(){
-				var form=$(this).parents("form");
-				var imgs=$(".uploader-imgsdata-img");
-				if(inSubmit){
-					return false;
-				} 
-				inSubmit=true;
-				setTimeout(function(){
-					inSubmit=false;
-				},2000);
-				if(imgs.length>0){
-					var s="";
-					for(var i=0;i<imgs.length;i++){
-						if(i>0){
-							s+=",";
-						}
-						s+=imgs.eq(i).attr("v");		
-					}
-					$("#imgsdata").val(s);
-				}
-				 
-				$.post(form.attr("action")+"&ajax=1",form.serialize(),function(res){
-					skyToast(res.message);
-					if(!res.error){
-						setTimeout(function(){
-							goBack();
-						},1000)
-						
-					}
-				},"json")
-			})
-		</script>
+		<script src="/plugin/lrz/lrz.bundle.js?v2"></script>
+		{/if}
+		 
+		<script src="{$skins}forum/add.js"> </script>
 	</body>
 </html>

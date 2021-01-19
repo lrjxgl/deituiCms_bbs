@@ -23,14 +23,15 @@
 					$navList=M("ad")->listByNo("wap-forum-nav"); 
 					break;
 			}
-			 
+			$seo=M("seo")->get("forum","default"); 
 			$this->smarty->goassign(array(
 				"list"=>$list,
 				"flashList"=>$flashList,
 				"adList"=>$adList,
 				"navList"=>$navList,
 				"rscount"=>$rscount,
-				"per_page"=>$per_page
+				"per_page"=>$per_page,
+				"seo"=>$seo
 			));
 			if(MDAPPTYPE=="plugin"){
 				$this->smarty->display("forum/index.html");
@@ -63,7 +64,6 @@
 				}
 				$gs=MM("forum","forum_group")->getListByIds($gids,"gid,title");
 				$us=M("user")->getUserByIds($uids);
-				 
 				foreach($data as $k=>$v){
 					$v['nickname']=$us[$v['userid']]['nickname'];
 					$v['user_head']=images_site($us[$v['userid']]['user_head']);
@@ -349,7 +349,7 @@
 			}
 			 
 			$data['imgurl']=images_site($data['imgurl']); 
-			 
+			$data["videourl"]=images_site($data["videourl"]); 
 			$catlist=M("mod_forum_category")->select(array(
 				"where"=>"  status=1 AND gid=".$data['gid']
 			));
@@ -373,7 +373,9 @@
 						$imgslist[$k]=$v;
 					}
 				}
-			} 
+			}
+			//视频
+			$data["videourl"]=images_site($data["videourl"]); 
 			//是否点赞
 			$islove=0;
 			$love=M("love")->selectRow("tablename='mod_forum' AND userid=".$userid." AND objectid=".$id);
@@ -538,12 +540,13 @@
 				}
 			}
 			
-			 
+			$videourl=images_site($data["videourl"]); 
 			$this->smarty->goAssign(array(
 				"data"=>$data,
 				"catlist"=>$catlist,
 				"grouplist"=>$grouplist,
-				"imgsdata"=>$imgsdata
+				"imgsdata"=>$imgsdata,
+				"videourl"=>$videourl
 			));
 			
 			$this->smarty->display("forum/add.html");

@@ -2,10 +2,10 @@
 <html>
 	{include file="head.html"}
 	<link href="/plugin/swiper/css/swiper.min.css" rel="stylesheet" />
-	<link href="{$skins}forum/index.css" rel="stylesheet" />
+	<link href="{$skins}forum/index.css?v2" rel="stylesheet" />
 	<body>
 		<div class="header">
-			<img class="header-logo" src="{$site.logo}.100x100.jpg" /> 
+			<div url="/" class="header-back pos-relative"></div> 
 			<div class="header-search-box">
 				 
 				<input id="search-word" class="header-search pdl-5" placeholder="搜你想要的" type="text">
@@ -72,13 +72,13 @@
 				<div gourl="/module.php?m=forum" class="tabNav-item tabNav-item-active">推荐</div>
 				<div gourl="/module.php?m=forum&a=new"  class="tabNav-item">最新</div>
 				<div gourl="/module.php?m=forum_feeds"  class="tabNav-item">关注</div>
-				<div gourl="/module.php?m=forum_paihang"  class="tabNav-item">名人榜</div>
+				<div gourl="/module.php?m=forum_paihang"  class="tabNav-item">排行榜</div>
 			</div>
 			<div class="sglist">
 				{foreach item=c from=$list}
-				<a href="/module.php?m=forum&a=show&id={$c.id}" class="sglist-item">
+				<div   class="sglist-item">
 					<div class="flex mgb-10">
-						<img src="{$c.user_head}.100x100.jpg" class="wh-40 bd-radius-50" />
+						<img gourl="/module.php?m=forum_home&userid={$c.userid}" src="{$c.user_head}.100x100.jpg" class="wh-40 bd-radius-50" />
 						<div class="flex-1 mgl-5">
 							<div class="f14 fw-600 mgb-5">{$c.nickname}</div>
 							<div class="flex">
@@ -86,8 +86,9 @@
 								
 							</div>
 						</div>
-						<div class="cl2 f12">来自{$c.group_title}</div>  
+						<div gourl="/module.php?m=forum&a=list&gid={$c.gid}" class="cl2 f12">来自{$c.group_title}</div>  
 					</div>
+					<a href="/module.php?m=forum&a=show&id={$c.id}">
 					<div class="sglist-title mgb-10">{$c.title}</div>
 					 
 					<div class="sglist-imglist">
@@ -100,15 +101,15 @@
 						<div class="sglist-ft-cm">{$c.comment_num}</div>
 						<div class="sglist-ft-view">{$c.view_num}</div>
 					</div> 
-				</a>
+					</a>
+				</div>
 				{/foreach}
 			</div>
-			<div class="flex-center pd-10">
-				<a class="f12 cl3" href="http://beian.miit.gov.cn">{$site.icp}</a>
-			</div>
+			
 		</div>
 		{include file="ftnav.html"}
 		{include file="footer.html"}
+		<?php wx_jssdk(false);?>
 		<script>
 			$(document).on("click","#search-btn",function(){
 				var word=$("#search-word").val();
