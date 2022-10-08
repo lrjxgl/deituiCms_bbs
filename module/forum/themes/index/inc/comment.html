@@ -1,4 +1,4 @@
-<div id="commentApp">
+<div id="commentApp" class="none" :class="'flex-col'">
 	<div id="comment-list" class="comment-list">
 		<div v-for="(item,index) in list" :key="index" >
 			<div class="comment-item">
@@ -35,6 +35,10 @@
 							
 						</div>
 					</div>
+				</div>
+				
+				<div v-if="isadmin" class="comment-item-del">
+					<div @click="del(item)" class="btn btn-mini btn-danger iconfont icon-delete"></div>
 				</div>
 			</div>
 			

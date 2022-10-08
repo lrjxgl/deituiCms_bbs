@@ -4,7 +4,7 @@
 	<link href="<?php echo $this->_var['skins']; ?>forum_home/index.css" rel="stylesheet" />
 	<body>
 		<div url="/module.php?m=forum" class="header-back-fixed goBack" style="z-index: 999; color: #fff;"></div>
-		<div class="main-body" v-if="pageLoad" id="App">
+		<div class="main-body none" :class="'flex-col'" v-if="pageLoad" id="App">
 			
 			<div class="uBox">
 				<div @click="toggleFollow(user)" v-if="user.isFollow" class="fixFollow fixFollow-active">已关注</div>
@@ -14,12 +14,14 @@
 				</div>
 				<div class="flex flex-center">
 					<div class="uBox-nick">{{user.nickname}}</div>
+					
 				</div>
 				<div class="flex mgb-10 flex-center">
 					<div class="mgr-5 cl-white">粉丝</div>
 					<div class="mgr-10  cl-white">{{user.followed_num}}</div> 
 					<div class="mgr-5  cl-white">关注</div>
 					<div class="cl-white">{{user.follow_num}}</div>
+					<div class="cl-white mgl-10">{{rank.rank_name}}</div>
 					<div class="btn-pm  cl-white" @click="goPm(user.userid)">私信</div>
 				</div>
 				<div v-if="user.description==''" class="uBox-desc">该用户一句话也没留下</div>

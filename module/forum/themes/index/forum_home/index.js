@@ -4,7 +4,8 @@ var App=new Vue({
 		return {
 			list:[],
 			pageLoad:false,
-			user:{}
+			user:{},
+			rank:{}
 			 
 		}
 	},
@@ -31,6 +32,7 @@ var App=new Vue({
 					that.pageLoad=true;
 					that.list=res.data.list;
 					that.user=res.data.user;
+					that.rank=res.data.rank;
 				}
 			})
 		},

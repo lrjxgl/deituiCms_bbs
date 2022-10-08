@@ -2,11 +2,12 @@
 <html>
 	{include file="head.html"}
 	<body>
-		{include file='forum_comment/nav.html'}
+		<div class="shd">{$type_name}</div>
 		<div class="main-body">
 			<div id="searchbox" class="search-form">
 				<form id="searchform" action="/moduleadmin.php" autocomplete="off">
 					<input type="hidden" name="m" value="forum_comment">
+					<input type="hidden" name="type" value="{$type}" />
 					ID <input type="text" class="w50" name="id" value="{$smarty.get.id|intval}" />
 					主题 <input type="text" class="w150" name="title" value="{$smarty.get.title}" />
 					用户：<input class="w100" type="text" name="nickname" value="{$smarty.get.nickname|html}" />
@@ -43,6 +44,7 @@
 					<td>
 						<a href="javascript:;" class="js-delete" url="/moduleadmin.php?m=forum_comment&a=delete&ajax=1&id={$c.id}">删除</a>
 						<div class="btn-mini btn-danger js-join-blacklist" userid="{$c.userid}">拉黑</div>
+						<div class="btn-mini btn-danger js-forbid-post" userid="{$c.userid}">禁言</div>
 					</td>
 				</tr>
 				{/foreach}
@@ -50,16 +52,6 @@
 			<div>{$pagelist}</div>
 		</div>
 		{include file="footer.html"}
-		<script>
-			$(document).on("click", ".js-join-blacklist", function() {
-				var userid = $(this).attr("userid");
-				$.post("{const.APPADMIN}?m=blacklist&a=add&ajax=1", {
-					userid: userid
-				}, function(res) {
-					skyToast(res.message);
-
-				}, "json");
-			})
-		</script>
+		 
 	</body>
 </html>

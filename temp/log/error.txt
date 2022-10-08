@@ -656,3 +656,40 @@ error:14090086:SSL routines:ssl3_get_server_certificate:certificate verify faile
 ---2020-12-28 21:27:42--/admin.php?m=index&a=shouquan--
 <div class='item'>错误类型：WARNING<br> 内容：file_get_contents(): SSL operation failed with code 1. OpenSSL Error messages:
 error:14090086:SSL routines:ssl3_get_server_certificate:certificate verify failed  错误位置：D:\www\weiapp\forum\source\admin\index.ctrl.php 行：147 </div>
+
+---2022-03-07 22:33:00--/index.php?m=invite&a=ewm--
+<div class='item'>错误类型：WARNING<br> 内容：imagettftext(): Could not find/open font  错误位置：D:\www\weiapp\forum\source\index\invite.ctrl.php 行：74 </div>
+
+---2022-03-07 22:33:04--/index.php?m=invite&a=ewm--
+<div class='item'>错误类型：WARNING<br> 内容：imagettftext(): Could not find/open font  错误位置：D:\www\weiapp\forum\source\index\invite.ctrl.php 行：74 </div>
+
+---2022-03-14 00:01:11--/module.php?m=forum&a=new--
+<div class='item'>错误类型：WARNING<br> 内容：Invalid argument supplied for foreach()  错误位置：D:\www\weiapp\forum\source\model\user_rank.model.php 行：27 </div>
+
+---2022-10-08 09:33:34--/admin.php?m=login--
+<div class='item'>错误类型：WARNING<br> 内容：mysqli::__construct(): (HY000/2002): ����Ŀ����������ܾ����޷����ӡ�
+  错误位置：D:\www\weiapp\forum\skymvc\class\cls_mysqli.php 行：65 </div>
+
+---2022-10-08 09:33:38--/admin.php?m=login--
+<div class='item'>错误类型：WARNING<br> 内容：mysqli::__construct(): (HY000/2002): ����Ŀ����������ܾ����޷����ӡ�
+  错误位置：D:\www\weiapp\forum\skymvc\class\cls_mysqli.php 行：65 </div>
+
+---2022-10-08 09:33:54--/admin.php?m=login--
+<div class='item'>错误类型：WARNING<br> 内容：mysqli::__construct(): (HY000/2002): ����Ŀ����������ܾ����޷����ӡ�
+  错误位置：D:\www\weiapp\forum\skymvc\class\cls_mysqli.php 行：65 </div>
+
+---2022-10-08 09:34:00--/admin.php?m=login--
+<div class='item'>错误类型：WARNING<br> 内容：mysqli::__construct(): (HY000/2002): ����Ŀ����������ܾ����޷����ӡ�
+  错误位置：D:\www\weiapp\forum\skymvc\class\cls_mysqli.php 行：65 </div>
+
+---2022-10-08 09:34:29--/admin.php?m=login--
+<div class='item'>错误类型：WARNING<br> 内容：mysqli::__construct(): (HY000/2002): ����Ŀ����������ܾ����޷����ӡ�
+  错误位置：D:\www\weiapp\forum\skymvc\class\cls_mysqli.php 行：65 </div>
+
+---2022-10-08 09:34:35--/admin.php?m=login--
+<div class='item'>错误类型：WARNING<br> 内容：mysqli::__construct(): (HY000/2002): ����Ŀ����������ܾ����޷����ӡ�
+  错误位置：D:\www\weiapp\forum\skymvc\class\cls_mysqli.php 行：65 </div>
+
+---2022-10-08 09:34:46--/admin.php?m=login--
+<div class='item'>错误类型：WARNING<br> 内容：mysqli::__construct(): (HY000/2002): ����Ŀ����������ܾ����޷����ӡ�
+  错误位置：D:\www\weiapp\forum\skymvc\class\cls_mysqli.php 行：65 </div>

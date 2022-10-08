@@ -45,6 +45,7 @@ $(document).on("click", "#changeCategory", function() {
 	}, "json");
 })
 $(document).on("click", "#delAll", function() {
+	
 	$.post("/moduleadmin.php?m=forum&a=delAll&ajax=1", $("#cForm").serialize(), function(res) {
 		skyToast(res.message);
 		if (!res.error) {

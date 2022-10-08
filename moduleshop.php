@@ -4,18 +4,28 @@ if(!file_exists("config/install.lock")){
 	header("Location:install");exit;
 };
 header("Content-type:text/html; charset=utf-8");
-if(ini_get('register_globals'))
+if(!file_exists("config/install.lock"))
 {
-	die('请关闭全局变量');
-}
+	header("Location: install/");
+	exit;
+} 
 define("ROOT_PATH",  str_replace("\\", "/", dirname(__FILE__))."/");
 
 require("config/version.php"); 
 require(ROOT_PATH."config/config.php");
-@include_once("config/setconfig.php");
- 
- 
- 
+include_once("config/setconfig.php");
+/***解析pathinfo*/
+$url=$_SERVER['REQUEST_URI'];
+if(preg_match("/moduleshop.php\//i",$url)){	 
+	$query=preg_replace("/.*moduleshop.php/i","",$url);
+	$basename=str_replace($query,"",$url);
+	$para=explode("?",$query);
+	$data=explode("/",$para[0]);
+	if(isset($data[1])){
+		$_GET['m']=$data[1];
+	}
+}	
+/**End**/
 $module=isset($_GET['module'])?$_GET['module']:"";
 $m=isset($_GET['m'])?$_GET['m']:"";
 $mm=explode("_",$m);

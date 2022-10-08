@@ -1,3 +1,7 @@
+.main-body{
+	max-width: 640px;
+	margin: 0 auto;
+}
 .swiper-wrapper{
 	flex-direction: row;
 }

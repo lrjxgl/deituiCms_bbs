@@ -58,6 +58,8 @@ var App=new Vue({
 					that.pageLoad=true;
 					that.list=res.data.list;
 					that.per_page=res.data.per_page;
+					that.isFirst=false;
+					that.setCache();
 				}
 			})
 		},
@@ -69,7 +71,8 @@ var App=new Vue({
 			$.ajax({
 				url:"/module.php?m=forum_feeds&ajax=1",
 				data:{
-					type:that.type
+					type:that.type,
+					per_page:that.per_page
 				},
 				dataType:"json",
 				success:function(res){
@@ -85,6 +88,7 @@ var App=new Vue({
 							that.list.push(res.data.list[i])
 						}
 					}
+					that.setCache();
 				}
 			})
 		}

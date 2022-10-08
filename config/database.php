@@ -1,10 +1,9 @@
-
-			<?php
+<?php
 			define("MYSQL_CHARSET", "utf8mb4");
 			define("TABLE_PRE", "sky_");
 			$dbclass="mysqli";
 			$dbconfig["master"]=array(
-				"host"=>"localhost","user"=>"root","pwd"=>"root","database"=>"deituicms_bbs"
+				"host"=>"127.0.0.1","user"=>"root","pwd"=>"root","database"=>"deituicms_bbs" 
 			);
 			/**其他分表库**/
 			/*
@@ -25,4 +24,4 @@
 			);
 			*/ 
 			
-		
+		?>

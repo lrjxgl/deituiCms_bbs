@@ -1,4 +1,4 @@
-new Vue({
+var App=new Vue({
 	el:"#App",
 	data:function(){
 		return {
@@ -29,7 +29,7 @@ new Vue({
 				if(Date.parse(new  Date())/1000>d.expire){
 					return false;
 				}
-				 
+				console.log("cache true",Date.parse(new  Date())/1000,d.expire) 
 				this.list=d.list;
 				this.isFirst=d.isFirst;
 				this.pageLoad=d.pageLoad;
@@ -112,4 +112,8 @@ new Vue({
 			window.location="/module.php?m=forum&a=list&gid="+gid
 		},
 	}
+})
+
+$(document).on("click","#getNew",function(){
+	App.getPage();
 })

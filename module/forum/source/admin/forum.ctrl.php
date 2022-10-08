@@ -18,8 +18,27 @@
 			$this->smarty->display("menu.html");
 		}
 		public function onDefault(){
-			$where=" status in(0,1,2) " ;
-			$url="/moduleadmin.php?m=forum&a=default";
+			$type=get("type","h");
+			switch($type){
+				case "new":
+					$where=" status=0 ";
+					$type_name="待审帖子";
+					break;
+				case "pass":
+					$where=" status=1 ";
+					$type_name="上架帖子";
+					break;
+				case "forbid":
+					$where=" status=2 ";
+					$type_name="下架帖子";
+					break;
+				default:
+					$where=" status in(0,1,2) " ;
+					$type_name="全部帖子";
+					break;
+			}
+			
+			$url="/moduleadmin.php?m=forum&type=".$type;
 			$limit=24;
 			$start=get("per_page","i");
 			$sarr=array("id");
@@ -120,7 +139,9 @@
 					"url"=>$url,
 					"catlist"=>$catlist,
 					"grouplist"=>$grouplist,
-					"taglist"=>$taglist
+					"taglist"=>$taglist,
+					"type"=>$type,
+					"type_name"=>$type_name
 				)
 			);
 			$this->smarty->display("forum/index.html");
@@ -244,7 +265,11 @@
 		
 		public function onDelete(){
 			$id=get_post('id',"i");
-			M("mod_forum")->update(array("status"=>11),"id=$id");
+			$row=MM("forum","forum")->selectRow("id=".$id);
+			if($row["status"]>2){
+				$this->goAll("已经删除了",1);
+			}
+			MM("forum","forum")->del($row);
 			$this->goAll("删除成功");
 			 
 		}

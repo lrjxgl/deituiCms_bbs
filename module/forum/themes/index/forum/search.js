@@ -59,6 +59,10 @@ var App=new Vue({
 				},
 				dataType:"json",
 				success:function(res){
+					if(res.error){
+						skyToast(res.message);
+						return false;
+					}
 					that.pageLoad=true;
 					that.pageData=res.data;
 					that.setCache();

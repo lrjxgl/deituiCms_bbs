@@ -57,7 +57,10 @@
 				</div>
 			</div>	
 			<div class="row-box mgb-5"> 
-			
+				<div gourl="/index.php?m=user_auth" class="row-item">
+					<div class="row-item-icon icon-vipcard  cl-u"></div>
+					<div class="row-item-title">实名认证</div>
+				</div>
 				<div gourl="/index.php?m=kefu" class="row-item">
 					<div class="row-item-icon icon-service  cl-u"></div>
 					<div class="row-item-title">联系客服</div>
@@ -69,6 +72,7 @@
 			</div>
 			 
 		</div>
+		<?php $this->assign('ftnav','user'); ?>
 		<?php echo $this->fetch('ftnav.html'); ?>
 		<?php echo $this->fetch('footer.html'); ?>
 	</body>

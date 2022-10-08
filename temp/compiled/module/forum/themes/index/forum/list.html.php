@@ -13,6 +13,7 @@
 		</div>
 		<div class="header-row"></div>
 		<div class="main-body none" :class="'flex-col'" id="App">
+			
 			<div class="tabs-border">
 				<div :class="catid==0?'tabs-border-active':''" class="tabs-border-item"  @click="setCat(0)">全部</div>
  
@@ -25,7 +26,10 @@
 					<div class="flex mgb-5">
 						<img :src="item.user_head+'.100x100.jpg'" class="wh-40 bd-radius-50" />
 						<div class="flex-1 mgl-5">
-							<div class="f14 fw-600 mgb-5">{{item.nickname}}</div>
+							<div class="flex flex-ai-center mgb-5">
+								<div class="f14 fw-600 ">{{item.nickname}}</div>
+								<span class="mgl-5 cl-warning f12">{{item.user.rank.rank_name}}</span>
+							</div>
 							<div class="flex">
 								<div class="f12 cl3">{{item.timeago}}</div>
 								
@@ -33,7 +37,7 @@
 						</div>
 						<div class="cl2 f12">来自{{item.group_title}}</div>  
 					</div>
-					<div class="sglist-title mgb-10"><?php echo $this->_var['c']['title']; ?></div>
+					
 					<div class="mgb-5 flex flex-ai-center">
 						<div class="btn-recommend">荐</div>
 						<div>{{item.title}}</div>
@@ -62,7 +66,7 @@
 							</div>
 						</div>		 
 					</div>
-					<div class="sglist-title mgb-10"><?php echo $this->_var['c']['title']; ?></div>
+					<div class="sglist-title mgb-10">{{item.title}}</div>
 					<div class="sglist-desc">{{item.description}}</div>
 					<div v-if="item.imgslist" class="sglist-imglist">
 						 
@@ -78,12 +82,20 @@
 				</div>  
 			</div>
 			<div v-if="per_page>0" class="loadMore" @click="getList">加载更多...</div>
+			<div @click="goAdd()" class="fixedAdd">发布</div>
 		</div>
-		<a href="/module.php?m=forum&a=add" class="fixedAdd">发布</a>
+		
 		<?php echo $this->fetch('footer.html'); ?>
 		<script>
 			var gid="<?php echo $this->_var['group']['gid']; ?>";
 		</script>
 		 <script src="<?php echo $this->_var['skins']; ?>forum/list.js"></script>
+		 <?php wx_jssdk();?>
+		 <script type="text/javascript">
+		 	wxshare_title="<?php echo $this->_var['group']['title']; ?>";
+		 	<?php if ($this->_var['group']['imgurl']): ?> 
+		 	 wxshare_imgUrl="<?php echo images_site($this->_var['group']['imgurl']); ?>.100x100.jpg";
+		 	 <?php endif; ?>
+		 </script>
 	</body>
 </html>

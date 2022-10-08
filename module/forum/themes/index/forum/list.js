@@ -61,6 +61,9 @@ new Vue({
 			}
 			localStorage.setItem(k,JSON.stringify(v));
 		},
+		goAdd:function(){
+			window.location="/module.php?m=forum&a=add&gid="+this.gid+"&catid="+this.catid;
+		},
 		getPage:function(){
 			that=this;
 			$.ajax({

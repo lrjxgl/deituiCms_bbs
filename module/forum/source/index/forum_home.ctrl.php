@@ -14,7 +14,8 @@ class forum_homeControl extends skymvc{
 	
 	public function onApi(){
 		$userid=get("userid","i");
-		$user=M("user")->getUser($userid,"userid,nickname,user_head,gender,follow_num,followed_num,description");
+		$user=M("user")->getUser($userid,"userid,grade,nickname,user_head,gender,follow_num,followed_num,description");
+		$rank=M("user_rank")->getLevel($user["grade"]);
 		$ssuserid=M("login")->userid;
 		$follow=M("follow")->selectRow("userid=".$ssuserid." AND t_userid=".$userid);
 		if($follow){
@@ -40,7 +41,8 @@ class forum_homeControl extends skymvc{
 		$this->smarty->goAssign(array(
 			"user"=>$user,
 			"list"=>$list,
-			"per_page"=>$per_page
+			"per_page"=>$per_page,
+			"rank"=>$rank
 		));
 	}
 	

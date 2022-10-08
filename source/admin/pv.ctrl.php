@@ -3,6 +3,7 @@ class pvControl extends skymvc{
 	
 	public function __construct(){
 		parent::__construct();
+		session_write_close();
 	}
 	
 	public function onDefault(){
@@ -125,7 +126,7 @@ class pvControl extends skymvc{
 	}
 	public function onNew(){
 		$where="1 ";
-		$url="/admin.php?m=pv";
+		$url="/admin.php?m=pv&a=new";
 		 
 		$limit=200;
 		$start=get("per_page","i");
@@ -152,6 +153,12 @@ class pvControl extends skymvc{
 			)
 		);
 		$this->smarty->display("pv/new.html");
+	}
+	
+	public function onClear(){
+		$time=date("Y-m-d H:i:s",time()-3600*24*8);
+		M("pv_day")->delete("createtime<'".$time."' ");
+		$this->goAll("清除成功");
 	}
 }
 ?>

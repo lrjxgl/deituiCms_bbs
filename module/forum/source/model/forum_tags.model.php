@@ -18,7 +18,7 @@ class forum_tagsModel extends model{
 		if($indexlist){
 			$otags=$this->select(array(
 				"fields"=>"tagid,title",
-				"where"=>" tagid in ("._implode($indexlist).")"
+				"where"=>"  tagid in ("._implode($indexlist).")"
 			));
 			if($otags){
 				foreach($otags as $v){
@@ -116,10 +116,15 @@ class forum_tagsModel extends model{
 			foreach($data as $v){
 				$proids[]=$v["objectid"];
 			}
-			$pros=MM("forum","forum")->getListByIds($proids);
+			$pros=MM("forum","forum")->getListByIds($proids,1);
 			foreach($data as $k=>$v){
-				$v=$pros[$v["objectid"]];
-				$data[$k]=$v;
+				if(isset($pros[$v["objectid"]])){
+					$v=$pros[$v["objectid"]];
+					$data[$k]=$v;
+				}else{
+					unset($data[$k]);
+				}
+				
 			}
 		}
 		 

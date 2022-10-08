@@ -110,6 +110,7 @@ class commentControl extends skymvc{
 		$userid=M("login")->userid;
 		M("blacklist")->check($userid);
 		M("blacklist_post")->check($userid);
+		M("user")->canPost($userid,"comment");
 		$id=get_post("id","i");
 		$tablename=get_post("tablename","h");
 		if(empty($tablename)){
@@ -193,7 +194,11 @@ class commentControl extends skymvc{
 			
 			M($tableComment)->insert($data);
 		}
-		
+		//通知网站
+		M("site_msg")->add([
+			"tablename"=>$tableComment,
+			"content"=>"有人发布评论了，快去审核吧"
+		]);
 		$this->goAll("保存成功");
 	}
 	

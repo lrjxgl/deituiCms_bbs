@@ -1,7 +1,7 @@
  
 var parent=$(".uploader-imgsdata-imgslist");
 var totalNum=0;
-$(document).on("click",".upimg-btn",function(){
+$(document).on("click",".js-upimg-btn",function(){
 	wx.chooseImage({
 	  count: 9, // 默认9
 	  sizeType: ['original', 'compressed'], 
@@ -90,10 +90,7 @@ function uploaderDataSync(){
  $(document).on("click", ".js-imgdel", function() {
  	var id = $(this).parents(".uploader-imgsdata-img").remove();
  })
- $(document).on("click", ".upimg-btn", function() {
- 	$(this).parents(".upimg-box").find(".uploader-imgsdata-file").click(); //
-
- })
+ 
  $(document).on("click", ".upimg-goleft", function() {
  	var p = $(this).parents(".upimg-item");
  	if (p.index(".upimg-item") == 0) {

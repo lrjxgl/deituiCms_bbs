@@ -5,6 +5,12 @@ class model{
 	public $table;
 	public $table_all=NULL;
 	public $tmpTable=false;  
+	public $where="";
+	public $fields=" * ";
+	public $group="";
+	public $order="";
+	public $start=0;
+	public $limit=0;
 	function __construct()
 	{
 		
@@ -17,7 +23,7 @@ class model{
 	
 	public function setTable($table,$object_id=0,$table_num=10){
 		$this->setDb($table);
-		if($object_id){
+		if($object_id && $table_num){
 			$this->tmpTable=$table."_".($object_id%$table_num);
 		}else{
 			$this->tmpTable=$table;
@@ -27,7 +33,18 @@ class model{
 	public function clearTable(){
 		$this->tmpTable=false;
 	}
-	 
+	public function table($table){
+		$this->table=$table;
+		return $this;
+	}
+	public function initParam(){
+		//$this->where="";
+		$this->fields="*";
+		$this->group="";
+		$this->order="";
+		$this->start=0;
+		$this->limit=0;
+	} 
 	/**
 	*执行sql语句
 	*/
@@ -68,25 +85,25 @@ class model{
 	/**
 	*获取全部数据
 	*/
-	public function getAll($sql){
+	public function getAll($sql,...$params){
 		return $this->db->getAll($sql);
 	}
 	/**
 	*获取一个字段数据
 	*/
-	public function getOne($sql){
+	public function getOne($sql,...$params){
 		return $this->db->getOne($sql);
 	}
 	/**
 	*获取一列数据
 	*/
-	public function getCols($sql){
+	public function getCols($sql,...$params){
 		return $this->db->getCOls($sql);
 	}
 	/**
 	*获取一行数据
 	*/
-	public function getRow($sql){
+	public function getRow($sql,...$params){
 		return $this->db->getRow($sql);
 	}
 	/**
@@ -276,6 +293,10 @@ class model{
 	public function postData($unPost=array()){
 		$table=$this->tmpTable?$this->tmpTable:($this->table_all?$this->table_all:$this->table);
 		$fields=$this->getFields();
+		/*
+		$noPost=["status","isnew",'isrecommend','isindex'];
+		$unPost+=$noPost;
+		*/
 		if($fields){
 			foreach($fields as $k=>$v){
 				if($k==0) continue;
@@ -309,7 +330,118 @@ class model{
 	public function close(){
 		$this->db->close();
 	}
+	/**
+	 *增加链式操作
+	 */
+	public function field($field){
+		$this->fields=$field;
+		return $this;
+	}
+	public function Where($w){
+		$this->where=$w;
+		return $this;
+	}
+	public function group($s){
+		$this->group=$s;
+		return $this;
+	}
+	public function Order($s){
+		$this->order=$s;
+		return $this;
+	}
+	public function limit($a=0,$b=0){
+		if($b==0){
+			$this->start=0;
+			$this->limit=$a;
+		}else{
+			$this->start=$a;
+			$this->limit=$b;
+		}
+		return $this;
+	}
+	public function initSql(){
+		//"select * from table where 1 group a order by x limit 1,2"
+		$sql=" select ".$this->fields." from ".table($this->table)." ";
+		if($this->where!=""){
+			$sql.=" where ".$this->where;
+		}
+		if($this->group!=""){
+			$sql.=" group by ".$this->group;
+		}
+		if($this->order!=""){
+			$sql.=" order by ".$this->order;
+		}
+		if($this->limit!=0){
+			$sql.=" limit ".$this->start.",".$this->limit;
+		}
+		$this->initParam();
+		 
+		return $sql;
+	}
+	public function preQuery($sql,...$params){
+		return $this->db->preQuery($sql,...$params);
+	}
+	public function all(...$params){
+		$sql=$this->initSql();
+		$res=$this->preQuery($sql,...$params);
+		$data=array();
+		if($res!==false){
+			while($rs=$this->db->fetch_array($res,"str")){
+				$data[]=$rs;
+			}			 
+			return $data;
+		}else{
+			return false;	
+		}
+	}
+	public function cols(...$params){
+		$sql=$this->initSql();
+		$res=$this->preQuery($sql,...$params);
+		$data=array();
+		if($res!==false){
+			while($rs=$this->db->fetch_array($res,"num")){
+				$data[]=$rs[0];
+			}			 
+			return $data;
+		}else{
+			return false;	
+		}
+	}
+	public function row(...$params){
+		$this->limit=1;
+		$sql=$this->initSql();
+		$res=$this->preQuery($sql,...$params);
+		if($res!=false){
+			$row=$this->db->fetch_array($res,"str");
+			return $row;
+		}else{
+			return false;
+		}
+	}
+	public function one(...$params){
+		$this->limit=1;
+		$sql=$this->initSql();
+		$res=$this->preQuery($sql,...$params);
+		if($res!=false){
+			$row=$this->db->fetch_array($res,"num");
+			return $row[0];
+		}else{
+			return false;
+		}
+	}
 	
+	public function count(...$params){
+		$this->fields=" count(*) ";
+		$sql=$this->initSql();
+		 
+		$res=$this->preQuery($sql,...$params);
+		if($res!=false){
+			$row=$this->db->fetch_array($res,"num");
+			return $row[0];
+		}else{
+			return false;
+		}
+	}
 	
 	
 }

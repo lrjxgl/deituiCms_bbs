@@ -3,14 +3,12 @@
 	<?php echo $this->fetch('head.html'); ?>
 
 	<body>
-		<div class="tabs-border">
-			<a class="item active" href="/moduleadmin.php?m=forum">帖子管理</a>
-			<a class="item" href="/moduleadmin.php?m=forum&a=add">帖子添加</a>
-		</div>
+		<div class="shd"><?php echo $this->_var['type_name']; ?></div>
 		<div class="main-body">
 			<div id="searchbox" class="search-form">
 				<form id="searchform" action="/moduleadmin.php" autocomplete="off">
-					<input type="hidden" name="m" value="forum">
+					<input type="hidden" name="m" value="forum" />
+					<input type="hidden" name="type" value="<?php echo $this->_var['type']; ?>" /> 
 					ID <input type="text" class="w50" name="id" value="<?php echo intval($_GET['id']); ?>" />
 					主题 <input type="text" class="w150" name="title" value="<?php echo $_GET['title']; ?>" />
 					板块
@@ -26,7 +24,8 @@
     foreach ($_from AS $this->_var['c']):
 ?>
 						<option value="<?php echo $this->_var['c']['catid']; ?>" <?php if (get ( 'catid' ) == $this->_var['c']['catid']): ?> selected="selected" <?php endif; ?>><?php echo $this->_var['c']['title']; ?> </option> <?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
-						 </select> 用户：<input class="w100" type="text" name="nickname" value="<?php echo html($_GET['nickname']); ?>" />
+						 </select> 
+						 用户：<input class="w100" type="text" name="nickname" value="<?php echo html($_GET['nickname']); ?>" />
 						<input type="checkbox" <?php if (get ( "isrecommend" ) == 1): ?>checked<?php endif; ?> name="isrecommend" value="1" />推荐
 						<button type="submit" class="btn">搜索</button>
 

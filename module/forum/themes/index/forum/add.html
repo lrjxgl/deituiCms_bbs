@@ -23,14 +23,14 @@
 							<select name="gid" id="gid" class="input-flex-select" >
 							<option value="0">请选择</option>
 							{foreach item=c from=$grouplist}
-													<option value="{$c.gid}" {if $data.gid eq $c.gid} selected="selected"{/if}>{$c.title}</option>
+								<option value="{$c.gid}" {if $gid eq $c.gid } selected="selected"{/if}>{$c.title}</option>
 							{/foreach}
 							</select>
 							&nbsp;
 						<select name="catid" id="catid" class="input-flex-select" >
 						<option value="0">请选择</option>
 						{foreach item=c from=$catlist}
-								<option value="{$c.catid}" {if $data.catid eq $c.catid} selected="selected"{/if}>{$c.title}</option>
+								<option value="{$c.catid}" {if $catid eq $c.catid} selected="selected"{/if}>{$c.title}</option>
 						{/foreach}
 						</select>
 						
@@ -39,7 +39,7 @@
 						<div class="textarea-flex-label input-flex-require">内容：</div>
 						<textarea  class="textarea-flex-text h60" name="description" id="description">{$data.description}</textarea>
 					</div>
-					{if UPLOAD_OSS=='aliyun'}
+					{if  OPEN_UPLOAD_VIDEO==true}
 	
 					<div class="tabs-border-group">
 						<div class="tabs-border">
@@ -56,7 +56,7 @@
 								<div style="display: none;">
 									<input type="file" id="up-video" name="upfile" />
 								</div>
-								<div class="upimg-btn" id="js-upbtn">
+								<div class="upimg-btn" id="mp4Up-btn">
 									<div class="upimg-btn-icon">
 						
 									</div>
@@ -82,12 +82,7 @@
 						{include file="inc/uploader-data.html"}
 					</div>
 					{/if}
-					{if $payMoney}
-				 <div class="input-flex">
-					 <div class="input-flex-label">支付费用</div>
-					 <div class="input-flex-txt">{$payMoney}</div>
-				 </div>
-				 {/if}
+				 
 				<div class="btn-row-submit " id="submit">保存</div>
 			</form>
 
@@ -95,14 +90,19 @@
 		 
 		{include file="footer.html"}
 		 
-		{if INWEIXIN}
+		{get data=wxs model=weixin fun=selectRow(" status=1") }  
+		{if INWEIXIN && $wxs}
+		
 		<?php wx_jssdk();?>
 		<script src="{$skins}inc/uploader-data-wx.js?{$smarty.now}"></script> 
 		{else} 
+		
 		<script src="{$skins}inc/uploader-data.js"></script>
 		<script src="/plugin/lrz/lrz.bundle.js?v2"></script>
 		{/if}
-		 
+		<script>
+			var UPLOAD_OSS="{const.UPLOAD_OSS}"
+		</script>  
 		<script src="{$skins}forum/add.js"> </script>
 	</body>
 </html>

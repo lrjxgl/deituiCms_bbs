@@ -8,7 +8,8 @@ var cmApp=new Vue({
 			isFirst:true,
 			content:"",
 			formShow:false,
-			cmBtn:true
+			cmBtn:true,
+			isadmin:0
 		}
 	},
 	created:function(){
@@ -18,7 +19,7 @@ var cmApp=new Vue({
 		getPage:function(){
 			var that=this;
 			$.ajax({
-				url:"/index.php?m=comment&tablename=" + comment_tablename + "&ajax=1&objectid=" + comment_objectid,
+				url:"/module.php?m=forum_comment&tablename=" + comment_tablename + "&ajax=1&objectid=" + comment_objectid,
 				dataType:"json",
 				success:function(res){
 					if (res.error) {
@@ -27,13 +28,14 @@ var cmApp=new Vue({
 					that.list=res.data.list;
 					that.per_page=res.data.per_page;
 					that.isFirst=false;
+					that.isadmin=res.data.isadmin;
 				}
 			})
 		},
 		getList:function(){
 			var that=this;
 			$.ajax({
-				url:"/index.php?m=comment&tablename=" + comment_tablename + "&ajax=1&objectid=" + comment_objectid,
+				url:"/module.php?m=forum_comment&tablename=" + comment_tablename + "&ajax=1&objectid=" + comment_objectid,
 				dataType:"json",
 				success:function(res){
 					if (res.error) {
@@ -67,13 +69,17 @@ var cmApp=new Vue({
 				 
 			}
 			$.ajax({
-				url:"/index.php?m=comment&a=save&ajax=1",
+				url:"/module.php?m=forum_comment&a=save&ajax=1",
 				dataType:"json",
 				type:"POST",
 				data:pdata,
 				success:function(res){
-					if (res.error==1000) {
-					    window.location="/index.php?m=login"
+					if(res.error){
+						if (res.error==1000) {
+						    window.location="/index.php?m=login"
+						}else{
+							skyToast(res.message);
+						}
 					}else{
 						comment_pid = 0;
 						that.content="";
@@ -94,6 +100,34 @@ var cmApp=new Vue({
 		},
 		goHome:function(userid){
 			window.location="/module.php?m=forum_home&userid="+userid
+		},
+		del:function(item){
+			var that=this; 
+			skyJs.confirm({
+				title:"删除提示",
+				content:"确认删除评论吗?",
+				success:function(res){
+					
+					$.ajax({
+						url:"/module.php?m=forum_comment&a=delete&ajax=1&id=" + item.id,
+						dataType:"json",
+						success:function(res){
+							if (res.error) {
+							    return false;
+							}
+							var list=[];
+							for(var i in that.list){
+								if(that.list[i].id!=item.id){
+									list.push(that.list[i]);
+								}
+							}
+							that.list=list;
+							 
+						}
+					})
+				}
+				
+			})
 		}
 	}
 })

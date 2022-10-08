@@ -39,7 +39,8 @@
   
    
 <td>
-	<a href="/moduleadmin.php?m=forum_group&a=add&gid=<?php echo $this->_var['c']['gid']; ?>">编辑</a> 
+	<a href="/moduleadmin.php?m=forum_group&a=add&gid=<?php echo $this->_var['c']['gid']; ?>">编辑</a>
+	<a href="/moduleadmin.php?m=forum_group_admin&gid=<?php echo $this->_var['c']['gid']; ?>">版主管理</a> 
 	<a href="/module.php?m=forum&a=list&gid=<?php echo $this->_var['c']['gid']; ?>" target="_blank">查看</a><br />
 	<a href="/moduleadmin.php?m=forum_category&gid=<?php echo $this->_var['c']['gid']; ?>">管理分类</a>
 	<a href="javascript:;" class="js-delete"te" url="/moduleadmin.php?m=forum_group&a=delete&gid=<?php echo $this->_var['c']['gid']; ?>">删除</a></td>

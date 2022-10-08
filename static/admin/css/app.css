@@ -178,7 +178,18 @@ a {
 	border: 1px solid #ddd;
 	box-sizing: border-box;
 }
-
+.tbs-fixed{
+	position: fixed;
+	display: flex;
+	background-color: #f2f2f2;
+		color: #323232;
+}
+.tbs-fixed div{
+	padding: 0px 10px;
+	line-height: 40px;
+	border: 1px solid #ddd;
+	box-sizing: border-box;
+}
 /**table-add****/
 .table-add {
 	width: 100%;

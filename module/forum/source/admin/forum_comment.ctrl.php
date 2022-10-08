@@ -12,8 +12,26 @@
 		}
 		
 		public function onDefault(){
-			$where=" status in(0,1,2)";
-			$url="/moduleadmin.php?m=forum_comment&a=default";
+			$type=get("type","h");
+			switch($type){
+				case "new":
+					$where=" status=0 ";
+					$type_name="待审评论";
+					break;
+				case "pass":
+					$where=" status=2 ";
+					$type_name="上架评论";
+					break;
+				case "forbid":
+					$where=" status=2 ";
+					$type_name="下架评论";
+					break;
+				default:
+					$where=" status in(0,1,2) " ;
+					$type_name="全部评论";
+					break;
+			}
+			$url="/moduleadmin.php?m=forum_comment&type=".$type;
 			$sarr=array("id");
 			foreach($_GET as $k=>$v){
 				if($_GET[$k] && in_array($k,$sarr)){
@@ -70,7 +88,9 @@
 					"per_page"=>$per_page,
 					"pagelist"=>$pagelist,
 					"rscount"=>$rscount,
-					"url"=>$url
+					"url"=>$url,
+					"type"=>$type,
+					"type_name"=>$type_name
 				)
 			);
 			$this->smarty->display("forum_comment/index.html");
@@ -91,7 +111,11 @@
 		
 		public function onDelete(){
 			$id=get_post('id',"i");
-			M("mod_forum_comment")->update(array("status"=>11),"id=$id");
+			$row=M("mod_forum_comment")->selectRow("id=".$id);
+			if($row["status"]>2){
+				$this->goAll("已经删除了",1);
+			}
+			MM("forum","forum_comment")->del($row);			 
 			$this->goAll("删除成功");
 			 
 		}
